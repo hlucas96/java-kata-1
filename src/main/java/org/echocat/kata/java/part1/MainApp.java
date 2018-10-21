@@ -31,9 +31,20 @@ public class MainApp {
 	}
 	
 	private static Author FindAuthorByEmail(String string, ArrayList<Author> authorList) {
-		for(int i = 0; i < authorList.size(); i++) {
+		int size = authorList.size();
+		for(int i = 0; i < size; i++) {
 			if(authorList.get(i).email.equals(string)) {
 				return authorList.get(i);
+			}
+		}
+		return null;
+	}
+	
+	private static Content FindContentByIsbn(String isbn, ArrayList<Content> contentList) {
+		int size = contentList.size();
+		for(int i = 0; i < size; i++) {
+			if(contentList.get(i).isbn.equals(isbn)) {
+				return contentList.get(i);
 			}
 		}
 		return null;
@@ -85,6 +96,10 @@ public class MainApp {
     	ArrayList<Content> contentList = ReadContents(path+"magazines.csv", path+"books.csv", authors);
  
     	printContentList(contentList);
+    	
+    	Content example1 = FindContentByIsbn("1024-5245-8584", contentList);
+    	System.out.println("--- Article found with ISBN 1024-5245-8584 ---");
+    	example1.printContent();
     }
 
 }
