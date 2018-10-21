@@ -12,9 +12,9 @@ public class Author {
 	}
 	
 	public void printAuthor() {
-		System.out.println("AUTHOR\n"+this.firstname+" "+this.lastname+"\nEmail: "+this.email);
+		System.out.println("AUTHOR\n"+this.firstname+" "+this.lastname+"\nEmail: "+this.email+"\n");
 	}
 	public void printMinAuthor() {
-		System.out.println(this.firstname+" "+this.lastname);
+		System.out.print(this.firstname+" "+this.lastname);
 	}
 }
