@@ -50,6 +50,20 @@ public class MainApp {
 		return null;
 	}
 	
+	private static ArrayList<Content> FindContentByAuthorEmail(String email, ArrayList<Content> contentList) {
+		int size = contentList.size();
+		ArrayList<Content> resultList = new ArrayList<Content>();
+		for(int i = 0; i < size; i++) {
+			ArrayList<Author> authorsOfThisContent = contentList.get(i).authors;
+			for(int j = 0; j < authorsOfThisContent.size(); j++) {
+				if(authorsOfThisContent.get(j).email.equals(email)) {
+					resultList.add(contentList.get(i));
+				}
+			}	
+		}		
+		return resultList;
+	}
+	
 	static void ReadFileAsContents(String filename, ArrayList<Author> authorList, boolean isMagazine, ArrayList<Content> list) throws FileNotFoundException {
 		Scanner scanner = CSVFileScanner(filename);
 		
@@ -100,6 +114,11 @@ public class MainApp {
     	Content example1 = FindContentByIsbn("1024-5245-8584", contentList);
     	System.out.println("--- Article found with ISBN 1024-5245-8584 ---");
     	example1.printContent();
+    	
+    	ArrayList<Content> example2 = FindContentByAuthorEmail("null-walter@echocat.org", contentList);
+    	System.out.println("--- Articles found with author null-walter@echocat.org ---");
+    	printContentList(example2);
+    	
     }
 
 }
