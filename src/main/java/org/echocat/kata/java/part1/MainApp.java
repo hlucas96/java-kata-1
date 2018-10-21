@@ -39,8 +39,7 @@ public class MainApp {
 		return null;
 	}
 	
-	static ArrayList<Content> ReadFileAsContents(String filename, ArrayList<Author> authorList, boolean isMagazine) throws FileNotFoundException {
-		ArrayList<Content> list = new ArrayList<Content>();
+	static void ReadFileAsContents(String filename, ArrayList<Author> authorList, boolean isMagazine, ArrayList<Content> list) throws FileNotFoundException {
 		Scanner scanner = CSVFileScanner(filename);
 		
 		while(scanner.hasNext()){
@@ -63,22 +62,29 @@ public class MainApp {
             list.add(c);
         }
         scanner.close();
-        
-        return list;
-	}
-	
-	static ArrayList<Content> ReadFileAsMagazines(String filename, ArrayList<Author> authorList) throws FileNotFoundException {
-        return ReadFileAsContents(filename, authorList, true);
-	}
-	static ArrayList<Content> ReadFileAsBooks(String filename, ArrayList<Author> authorList) throws FileNotFoundException {
-        return ReadFileAsContents(filename, authorList, false);
 	}
 
+	
+	static ArrayList<Content> ReadContents(String filenameMagazines, String filenameBooks, ArrayList<Author> authorList) throws FileNotFoundException {
+		ArrayList<Content> list = new ArrayList<Content>();
+		ReadFileAsContents(filenameMagazines, authorList, true, list);
+		ReadFileAsContents(filenameBooks, authorList, false, list);
+		return list;
+	}
+	
+	static void printContentList(ArrayList<Content> contents) {
+		int size = contents.size();
+		for(int i = 0; i < size; i++) {
+			contents.get(i);
+		}
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
     	String path = "src/main/resources/org/echocat/kata/java/part1/data/";
     	ArrayList<Author> authors = ReadFileAsAuthors(path+"authors.csv");
-    	ArrayList<Content> magazines = ReadFileAsMagazines(path+"magazines.csv", authors);
-    	ArrayList<Content> books = ReadFileAsBooks(path+"books.csv", authors);
+    	ArrayList<Content> contentList = ReadContents(path+"magazines.csv", path+"books.csv", authors);
+ 
+    	printContentList(contentList);
     }
 
 }
