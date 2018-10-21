@@ -39,8 +39,8 @@ public class MainApp {
 		return null;
 	}
 	
-	static ArrayList<Magazine> ReadFileAsMagazines(String filename, ArrayList<Author> authorList) throws FileNotFoundException {
-		ArrayList<Magazine> list = new ArrayList<Magazine>();
+	static ArrayList<Content> ReadFileAsContents(String filename, ArrayList<Author> authorList, boolean isMagazine) throws FileNotFoundException {
+		ArrayList<Content> list = new ArrayList<Content>();
 		Scanner scanner = CSVFileScanner(filename);
 		
 		while(scanner.hasNext()){
@@ -52,20 +52,33 @@ public class MainApp {
 				authors.add(FindAuthorByEmail(mailAuthors[i], authorList));
 			}
 			
-			Magazine magazine = new Magazine(content[0], content[1], authors, content[3]);
-			magazine.printContent();
-            list.add(magazine);
+			Content c = new Content();
+			if(isMagazine) {
+				c = new Magazine(content[0], content[1], authors, content[3]);
+			}
+			else {
+				c = new Book(content[0], content[1], authors, content[3]);
+			}
+			c.printContent();
+            list.add(c);
         }
         scanner.close();
         
         return list;
-	}    
+	}
+	
+	static ArrayList<Content> ReadFileAsMagazines(String filename, ArrayList<Author> authorList) throws FileNotFoundException {
+        return ReadFileAsContents(filename, authorList, true);
+	}
+	static ArrayList<Content> ReadFileAsBooks(String filename, ArrayList<Author> authorList) throws FileNotFoundException {
+        return ReadFileAsContents(filename, authorList, false);
+	}
 
 	public static void main(String[] args) throws FileNotFoundException {
     	String path = "src/main/resources/org/echocat/kata/java/part1/data/";
     	ArrayList<Author> authors = ReadFileAsAuthors(path+"authors.csv");
-    	ArrayList<Magazine> magazines = ReadFileAsMagazines(path+"magazines.csv", authors);
-    	
+    	ArrayList<Content> magazines = ReadFileAsMagazines(path+"magazines.csv", authors);
+    	ArrayList<Content> books = ReadFileAsBooks(path+"books.csv", authors);
     }
 
 }
